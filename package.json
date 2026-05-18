@@ -11,6 +11,7 @@
     "build": "bun run generate-og && bun run check && astro build",
     "generate-og": "bun scripts/generate-og-image.mjs",
     "preview": "astro preview",
+    "start": "astro preview --host 0.0.0.0 --port 4321",
     "astro": "astro"
   },
   "dependencies": {
