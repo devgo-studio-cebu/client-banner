@@ -17,6 +17,51 @@
     --default-transition-duration: 300ms;
 }
 
+/* Entrance animations — replaces animejs */
+@keyframes hero-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes hero-line-scale {
+    from {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    to {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+}
+
+@keyframes hero-dot-pop {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes hero-wrapper-in {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 @layer components {
     .prose h2 {
         @apply font-head uppercase tracking-wide text-lg md:text-2xl mt-12 mb-4 pb-2 border-b border-bg-secondary/20;
@@ -57,5 +102,39 @@
 
     .prose pre {
         @apply bg-bg-secondary/10 border border-bg-secondary/20 rounded-lg;
+    }
+
+    /* NEW: entrance animations */
+    .hero-wrapper {
+        animation: hero-wrapper-in 1s cubic-bezier(0.16, 1, 0.3, 1) 80ms both;
+    }
+
+    .hero-section {
+        animation: hero-fade-up 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .hero-section:nth-of-type(1) { animation-delay: 180ms; }
+    .hero-section:nth-of-type(2) { animation-delay: 320ms; }
+    .hero-section:nth-of-type(3) { animation-delay: 460ms; }
+
+    .hero-line {
+        animation: hero-line-scale 700ms cubic-bezier(0.25, 1, 0.5, 1) both;
+        transform-origin: left;
+    }
+
+    .hero-line:first-of-type { animation-delay: 500ms; }
+    .hero-line:last-of-type { animation-delay: 700ms; }
+
+    .hero-dot {
+        animation: hero-dot-pop 500ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-wrapper,
+        .hero-section,
+        .hero-line,
+        .hero-dot {
+            animation: none !important;
+        }
     }
 }
