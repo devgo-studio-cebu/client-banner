@@ -7,21 +7,23 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "bun run generate-og && astro build",
+    "check": "astro check",
+    "build": "bun run generate-og && bun run check && astro build",
     "generate-og": "bun scripts/generate-og-image.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.9",
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource-variable/montserrat": "^5.2.8",
-    "@img/sharp-darwin-arm64": "^0.34.5",
     "@lucide/astro": "^1.16.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.3.3",
     "satori": "^0.26.0",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
   }
 }
