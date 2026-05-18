@@ -4,9 +4,12 @@ import { defineConfig, fontProviders, envField } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
+const siteUrl = process.env.SITE_URL || "https://devgo.studio";
+const siteHostname = new URL(siteUrl).hostname;
+
 // https://astro.build/config
 export default defineConfig({
-    site: process.env.SITE_URL || "https://devgo.studio",
+    site: siteUrl,
 
     env: {
         schema: {
@@ -35,6 +38,9 @@ export default defineConfig({
 
     vite: {
         plugins: [tailwindcss()],
+        preview: {
+            allowedHosts: [siteHostname],
+        },
     },
 
     integrations: [sitemap({
