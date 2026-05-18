@@ -1,8 +1,8 @@
 /**
  * Build-time OG image generator
  *
- * Uses satori (HTML-to-SVG) + sharp (SVG-to-PNG) to generate
- * the default Open Graph image for the client-banner site.
+ * Uses satori + sharp to generate an OG image that mirrors
+ * the site's editorial card aesthetic.
  */
 
 import fs from "node:fs/promises"
@@ -19,6 +19,13 @@ const FONTS_DIR = path.resolve(ROOT, "src/assets/fonts")
 const WIDTH = 1200
 const HEIGHT = 630
 
+// Read env vars set by the project (same ones Astro uses)
+const CLIENT_NAME = process.env.CLIENT_NAME?.trim() || ""
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL?.trim() || "official@devgo.studio"
+
+const clientName = CLIENT_NAME || "Your Project"
+const displayEmail = CONTACT_EMAIL
+
 async function loadFont(name, weight) {
     const buffer = await fs.readFile(path.join(FONTS_DIR, name))
     return { name: "MonumentExtended", data: buffer, weight }
@@ -26,6 +33,7 @@ async function loadFont(name, weight) {
 
 async function generate() {
     console.log("🎨 Generating OG image…")
+    console.log(`   Client: ${clientName}`)
 
     const [regular, ultrabold] = await Promise.all([
         loadFont("MonumentExtended-Regular.otf", 400),
@@ -40,132 +48,265 @@ async function generate() {
                     width: WIDTH,
                     height: HEIGHT,
                     display: "flex",
-                    flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
                     backgroundColor: "#040906",
-                    padding: "80px",
+                    padding: "70px",
                     position: "relative",
                     overflow: "hidden",
                 },
                 children: [
-                    // Decorative gradient accent top-right
+                    // Ambient top-right glow
                     {
                         type: "div",
                         props: {
                             style: {
                                 position: "absolute",
-                                top: "-120px",
-                                right: "-120px",
-                                width: "400px",
-                                height: "400px",
+                                top: "-180px",
+                                right: "-180px",
+                                width: "600px",
+                                height: "600px",
                                 borderRadius: "50%",
                                 background:
-                                    "radial-gradient(circle, rgba(95,203,166,0.15) 0%, transparent 70%)",
+                                    "radial-gradient(circle, rgba(95,203,166,0.10) 0%, transparent 70%)",
                             },
                         },
                     },
-                    // Decorative gradient accent bottom-left
+                    // Ambient bottom-left glow
                     {
                         type: "div",
                         props: {
                             style: {
                                 position: "absolute",
-                                bottom: "-80px",
-                                left: "-80px",
-                                width: "300px",
-                                height: "300px",
+                                bottom: "-140px",
+                                left: "-140px",
+                                width: "480px",
+                                height: "480px",
                                 borderRadius: "50%",
                                 background:
-                                    "radial-gradient(circle, rgba(47,101,83,0.2) 0%, transparent 70%)",
+                                    "radial-gradient(circle, rgba(47,101,83,0.14) 0%, transparent 70%)",
                             },
                         },
                     },
-                    // Brand mark using inline SVG (single path)
+                    // Main card — simplified: no About/Contact sections
                     {
                         type: "div",
                         props: {
                             style: {
+                                position: "relative",
+                                width: "100%",
+                                maxWidth: "900px",
+                                border: "1px solid rgba(95,203,166,0.14)",
+                                backgroundColor: "rgba(4,9,6,0.50)",
                                 display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginBottom: "32px",
-                                width: "64px",
-                                height: "84px",
+                                flexDirection: "column",
+                                padding: "56px 64px",
                             },
                             children: [
+                                // Client label
                                 {
-                                    type: "svg",
+                                    type: "div",
                                     props: {
-                                        width: 64,
-                                        height: 84,
-                                        viewBox: "0 0 710.94 953.47",
                                         style: {
                                             display: "flex",
+                                            alignItems: "center",
+                                            gap: "10px",
+                                            marginBottom: "16px",
                                         },
                                         children: [
                                             {
-                                                type: "path",
+                                                type: "div",
                                                 props: {
-                                                    fill: "#5fcba6",
-                                                    d: "M418.13,406.68c-56.08-26.68-159.25-75.75-190.92-90.81-5.87-2.79-9.27-7.84-8.89-13.21.74-10.64,2.04-29.15,3.12-44.6.44-6.32,9.27-9.93,16.14-6.62,85.98,40.7,171.96,81.41,257.94,122.11-25.8,11.04-51.59,22.09-77.39,33.13Z",
+                                                    style: {
+                                                        width: "8px",
+                                                        height: "8px",
+                                                        borderRadius: "50%",
+                                                        backgroundColor: "rgba(95,203,166,0.45)",
+                                                        flexShrink: 0,
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        fontFamily: "MonumentExtended",
+                                                        fontSize: "11px",
+                                                        fontWeight: 800,
+                                                        color: "rgba(95,203,166,0.42)",
+                                                        textTransform: "uppercase",
+                                                        letterSpacing: "0.28em",
+                                                        lineHeight: 1,
+                                                    },
+                                                    children: "Client",
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                // Client name
+                                {
+                                    type: "div",
+                                    props: {
+                                        style: {
+                                            fontFamily: "MonumentExtended",
+                                            fontSize: "58px",
+                                            fontWeight: 800,
+                                            color: "#f5f5f5",
+                                            lineHeight: 0.92,
+                                            letterSpacing: "-0.02em",
+                                            textTransform: "uppercase",
+                                        },
+                                        children: clientName,
+                                    },
+                                },
+                                // Divider line
+                                {
+                                    type: "div",
+                                    props: {
+                                        style: {
+                                            marginTop: "36px",
+                                            marginBottom: "36px",
+                                            height: "1px",
+                                            width: "100%",
+                                            backgroundColor: "rgba(95,203,166,0.08)",
+                                        },
+                                    },
+                                },
+                                // Status row
+                                {
+                                    type: "div",
+                                    props: {
+                                        style: {
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "12px",
+                                        },
+                                        children: [
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        width: "10px",
+                                                        height: "10px",
+                                                        borderRadius: "50%",
+                                                        backgroundColor: "rgba(95,203,166,0.75)",
+                                                        flexShrink: 0,
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        fontFamily: "MonumentExtended",
+                                                        fontSize: "13px",
+                                                        fontWeight: 800,
+                                                        color: "rgba(95,203,166,0.38)",
+                                                        textTransform: "uppercase",
+                                                        letterSpacing: "0.25em",
+                                                    },
+                                                    children: "Status",
+                                                },
+                                            },
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        width: "24px",
+                                                        height: "1px",
+                                                        backgroundColor: "rgba(95,203,166,0.18)",
+                                                        flexShrink: 0,
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        fontFamily: "MonumentExtended",
+                                                        fontSize: "18px",
+                                                        fontWeight: 800,
+                                                        color: "rgba(245,245,245,0.65)",
+                                                        textTransform: "uppercase",
+                                                        letterSpacing: "0.02em",
+                                                    },
+                                                    children: "Under Development",
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                // Bottom row: email + studio
+                                {
+                                    type: "div",
+                                    props: {
+                                        style: {
+                                            display: "flex",
+                                            justifyContent: "space-between",
+                                            alignItems: "flex-end",
+                                            marginTop: "48px",
+                                        },
+                                        children: [
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        fontFamily: "system-ui, -apple-system, Segoe UI, sans-serif",
+                                                        fontSize: "15px",
+                                                        color: "rgba(95,203,166,0.60)",
+                                                        lineHeight: 1.5,
+                                                    },
+                                                    children: displayEmail,
+                                                },
+                                            },
+                                            {
+                                                type: "div",
+                                                props: {
+                                                    style: {
+                                                        display: "flex",
+                                                        flexDirection: "column",
+                                                        alignItems: "flex-end",
+                                                    },
+                                                    children: [
+                                                        {
+                                                            type: "div",
+                                                            props: {
+                                                                style: {
+                                                                    fontFamily: "MonumentExtended",
+                                                                    fontSize: "28px",
+                                                                    fontWeight: 800,
+                                                                    color: "rgba(245,245,245,0.88)",
+                                                                    lineHeight: 0.92,
+                                                                    letterSpacing: "-0.02em",
+                                                                    textTransform: "uppercase",
+                                                                },
+                                                                children: "DEVGO",
+                                                            },
+                                                        },
+                                                        {
+                                                            type: "div",
+                                                            props: {
+                                                                style: {
+                                                                    fontFamily: "MonumentExtended",
+                                                                    fontSize: "28px",
+                                                                    fontWeight: 800,
+                                                                    color: "rgba(245,245,245,0.88)",
+                                                                    lineHeight: 0.92,
+                                                                    letterSpacing: "-0.02em",
+                                                                    textTransform: "uppercase",
+                                                                    marginTop: "2px",
+                                                                },
+                                                                children: "STUDIO",
+                                                            },
+                                                        },
+                                                    ],
                                                 },
                                             },
                                         ],
                                     },
                                 },
                             ],
-                        },
-                    },
-                    // Main heading
-                    {
-                        type: "div",
-                        props: {
-                            style: {
-                                fontSize: "72px",
-                                fontWeight: 800,
-                                letterSpacing: "-0.02em",
-                                textAlign: "center",
-                                lineHeight: 1.1,
-                                color: "#5fcba6",
-                                display: "flex",
-                            },
-                            children: "Under Development",
-                        },
-                    },
-                    // Subtitle
-                    {
-                        type: "div",
-                        props: {
-                            style: {
-                                fontSize: "24px",
-                                fontWeight: 400,
-                                color: "#757575",
-                                marginTop: "20px",
-                                textAlign: "center",
-                                display: "flex",
-                            },
-                            children:
-                                "A new site is being built — contact us to learn more",
-                        },
-                    },
-                    // Bottom bar
-                    {
-                        type: "div",
-                        props: {
-                            style: {
-                                position: "absolute",
-                                bottom: "40px",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                fontSize: "14px",
-                                fontWeight: 400,
-                                color: "#5fcba6",
-                                letterSpacing: "0.1em",
-                                textTransform: "uppercase",
-                            },
-                            children: "DEVGO Studio — devgo.studio",
                         },
                     },
                 ],
@@ -179,7 +320,6 @@ async function generate() {
     )
 
     const png = await sharp(Buffer.from(svg)).png().toBuffer()
-
     await fs.writeFile(path.join(PUBLIC_DIR, "og-image.png"), png)
 
     console.log("✅ OG image generated: public/og-image.png")
