@@ -91,6 +91,22 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
     <canvas class="absolute inset-0 w-full h-full block z-10" />
 </div>
 
+<style>
+    .dither-video-wrapper {
+        opacity: 0;
+        animation: dither-fade-in 1.4s ease-out forwards;
+    }
+
+    @keyframes dither-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
 <script>
     // ─────────────────────────────────────────────────────────────────────────
     //  VERTEX SHADER  —  single full-screen quad
