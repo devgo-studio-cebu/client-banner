@@ -1,0 +1,62 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import DitheredVideoBackground from "../components/DitheredVideoBackground.astro";
+
+const seoProps = {
+    title: "404 — Page Not Found | DEVGO Studio",
+    description: "The page you're looking for doesn't exist. Return to DEVGO Studio.",
+    keywords: ["devgo", "studio", "404", "not found"],
+    type: "website" as const,
+};
+---
+
+<BaseLayout seo={seoProps}>
+    <DitheredVideoBackground
+        src="/banner-bg.webm"
+        mode="dots"
+        cellSize={10}
+        ditherStrength={0.6}
+        shadowCrush={0.65}
+        playbackRate={0.35}
+        dotColor="#5fcba6"
+        class="fixed inset-0 w-full h-full"
+    />
+
+    <div
+        class="fixed inset-0 pointer-events-none z-20"
+        style="background: radial-gradient(ellipse at center, transparent 35%, rgba(4,9,6,0.75) 100%);"
+    >
+    </div>
+
+    <main
+        class="relative z-30 flex-1 flex items-center justify-center min-h-svh w-full px-5 py-10 md:px-10 md:py-16"
+    >
+        <div class="w-full max-w-4xl hero-wrapper">
+            <div class="border border-accent/15 bg-bg/55 backdrop-blur-[3px] overflow-hidden p-6 md:p-10 lg:p-14">
+                <div class="flex items-center gap-2.5 mb-5">
+                    <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
+                    <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Error</span>
+                </div>
+
+                <h1 class="font-head uppercase text-4xl sm:text-5xl md:text-6xl text-text leading-[0.825] tracking-tight hero-section">
+                    404
+                </h1>
+
+                <div class="mx-0 md:mx-0 lg:mx-0 h-px bg-accent/[0.08] my-6 md:my-8 hero-line"></div>
+
+                <p class="font-sans text-sm md:text-base lg:text-[17px] text-text/50 leading-[1.7] max-w-xl hero-section">
+                    The page you're looking for doesn't exist. It may have been moved or deleted.
+                </p>
+
+                <div class="mt-8 hero-section">
+                    <a
+                        href="/"
+                        class="inline-block border border-accent/30 text-accent/70 hover:text-accent hover:border-accent/60 transition-all duration-300 px-6 py-3 font-sans text-sm uppercase tracking-[0.15em] font-semibold"
+                    >
+                        Return Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</BaseLayout>
