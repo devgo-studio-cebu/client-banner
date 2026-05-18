@@ -1,10 +1,11 @@
 ---
-import { CLIENT_NAME, CONTACT_EMAIL } from "astro:env/server";
+import { CLIENT_NAME, CONTACT_EMAIL, CONTACT_PHONE } from "astro:env/server";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import DitheredVideoBackground from "../components/DitheredVideoBackground.astro";
 
 const clientName = CLIENT_NAME || "";
 const contactEmail = CONTACT_EMAIL || "official@devgo.studio";
+const contactPhone = CONTACT_PHONE || "";
 
 const seoProps = {
     title: clientName
@@ -29,10 +30,10 @@ const seoProps = {
     <DitheredVideoBackground
         src="/banner-bg.webm"
         mode="dots"
-        cellSize={5}
-        ditherStrength={1.2}
-        shadowCrush={0.55}
-        playbackRate={0.5}
+        cellSize={10}
+        ditherStrength={0.6}
+        shadowCrush={0.65}
+        playbackRate={0.35}
         dotColor="#5fcba6"
         class="fixed inset-0 w-full h-full"
     />
@@ -40,19 +41,67 @@ const seoProps = {
     <!-- Subtle vignette to draw focus inward -->
     <div
         class="fixed inset-0 pointer-events-none z-20"
-        style="background: radial-gradient(ellipse at center, transparent 40%, rgba(4,9,6,0.7) 100%);"
+        style="background: radial-gradient(ellipse at center, transparent 35%, rgba(4,9,6,0.75) 100%);"
     >
     </div>
 
     <!-- Main content -->
     <main
-        class="relative z-100 flex-1 flex flex-col items-center justify-center text-center min-w-svw min-h-svh px-22"
+        class="relative z-30 flex-1 flex items-center justify-center min-h-svh w-full px-4 py-8 md:px-6 md:py-12 lg:px-12"
     >
-        <!-- Outlines -->
-        <div class="absolute h-svh w-[90svw] border-x border-text/20"></div>
-        <div class="absolute h-[90svh] w-svw border-y border-text/20"></div>
+        <div class="w-full max-w-4xl">
+            <!-- Grid container with clipped borders -->
+            <div class="border border-accent/10 overflow-hidden bg-bg/50 backdrop-blur-[2px]">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-[1px]">
+                    <!-- Client — primary emphasis -->
+                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2 overflow-hidden">
+                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Client</span>
+                        <p class="font-head uppercase text-3xl sm:text-4xl md:text-5xl text-text leading-[0.9] tracking-tight">
+                            {clientName || "TBA"}
+                        </p>
+                    </div>
 
-        <!-- Actual Content -->
-        <section class="w-[85svw] h-[85svh]"></section>
+                    <!-- Status -->
+                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2 overflow-hidden">
+                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Status</span>
+                        <h1 class="font-head uppercase text-2xl sm:text-3xl md:text-4xl text-text leading-[0.9] tracking-tight">
+                            Under<br>Development
+                        </h1>
+                    </div>
+
+                    <!-- About -->
+                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2">
+                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">About</span>
+                        <p class="font-sans text-sm md:text-base text-text/70 leading-relaxed">
+                            A new digital experience is currently being built here. Something clean, fast, and purposeful is on its way.
+                        </p>
+                    </div>
+
+                    <!-- Studio -->
+                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2 overflow-hidden">
+                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Studio</span>
+                        <p class="font-head uppercase text-2xl sm:text-3xl md:text-4xl text-text leading-[0.9] tracking-tight">
+                            DEVGO<br>STUDIO
+                        </p>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2">
+                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Contact</span>
+                        <a href={`mailto:${contactEmail}`} class="font-sans text-xs md:text-sm text-accent/80 hover:text-accent transition-colors break-all block">
+                            {contactEmail}
+                        </a>
+                        {contactPhone && (
+                            <a href={`tel:${contactPhone}`} class="font-sans text-xs md:text-sm text-accent/80 hover:text-accent transition-colors mt-1 block">
+                                {contactPhone}
+                            </a>
+                        )}
+                        <p class="font-sans text-xs md:text-sm text-text/50 mt-2">
+                            Questions? Reach out anytime.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </BaseLayout>
