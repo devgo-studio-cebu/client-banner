@@ -28,12 +28,13 @@ const seoProps = {
 <BaseLayout seo={seoProps}>
     <!-- Full-viewport video + halftone background -->
     <DitheredVideoBackground
-        src="/banner-bg.webm"
+        src="/bg-fish.mp4"
         mode="dots"
         cellSize={10}
-        ditherStrength={0.6}
-        shadowCrush={0.65}
-        playbackRate={0.35}
+        playbackRate={.35}
+        ditherStrength={0.2}
+        shadowCrush={0.15}
+        highlightCeil={.8}
         dotColor="#5fcba6"
         class="fixed inset-0 w-full h-full"
     />
@@ -51,13 +52,12 @@ const seoProps = {
     >
         <div class="w-full max-w-4xl hero-wrapper">
             <!-- Unified editorial card -->
-            <div class="border border-accent/15 bg-bg/55 backdrop-blur-[3px] overflow-hidden transition-all duration-500 hover:border-accent/25 hover:bg-bg/65">
+            <div class="border border-accent/15 bg-bg/80 backdrop-blur-[3px] overflow-hidden transition-all duration-500 hover:border-accent/25 hover:bg-bg">
 
                 <!-- Top section: Client + Status -->
                 <div class="p-6 md:p-10 lg:p-14 hero-section">
                     <!-- Client label -->
                     <div class="flex items-center gap-2.5 mb-5">
-                        <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
                         <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Client</span>
                     </div>
 
@@ -68,10 +68,6 @@ const seoProps = {
 
                     <!-- Status compact line below name -->
                     <div class="flex items-center gap-3 mt-5 md:mt-6">
-                        <span class="relative flex h-2.5 w-2.5">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
-                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent/80"></span>
-                        </span>
                         <span class="text-accent/40 text-[10px] uppercase tracking-[0.25em] font-sans font-semibold">Status</span>
                         <span class="h-px w-5 bg-accent/20"></span>
                         <h1 class="font-head uppercase text-sm sm:text-base md:text-lg text-text/70 tracking-tight leading-none">
@@ -81,13 +77,12 @@ const seoProps = {
                 </div>
 
                 <!-- Divider -->
-                <div class="mx-6 md:mx-10 lg:mx-14 h-px bg-accent/[0.08] hero-line"></div>
+                <div class="mx-6 md:mx-10 lg:mx-14 h-px bg-accent/8 hero-line"></div>
 
                 <!-- Middle section: About -->
                 <div class="p-6 md:p-10 lg:p-14 grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-10 hero-section">
                     <div class="md:col-span-1">
                         <div class="flex items-center gap-2.5 mb-0 md:mb-0">
-                            <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
                             <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">About</span>
                         </div>
                     </div>
@@ -99,14 +94,13 @@ const seoProps = {
                 </div>
 
                 <!-- Divider -->
-                <div class="mx-6 md:mx-10 lg:mx-14 h-px bg-accent/[0.08] hero-line"></div>
+                <div class="mx-6 md:mx-10 lg:mx-14 h-px bg-accent/8 hero-line"></div>
 
                 <!-- Bottom section: Contact + Studio -->
                 <div class="p-6 md:p-10 lg:p-14 flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12 hero-section">
                     <!-- Contact -->
                     <div class="flex-1">
                         <div class="flex items-center gap-2.5 mb-5">
-                            <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
                             <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Contact</span>
                         </div>
                         <a
@@ -132,7 +126,6 @@ const seoProps = {
                     <div class="md:text-right shrink-0">
                         <div class="flex items-center gap-2.5 mb-5 md:justify-end">
                             <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Studio</span>
-                            <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
                         </div>
                         <p class="font-head uppercase text-2xl sm:text-3xl md:text-4xl text-text/90 leading-[0.88] tracking-tight">
                             DEVGO<br>STUDIO
@@ -144,4 +137,3 @@ const seoProps = {
         </div>
     </main>
 </BaseLayout>
-

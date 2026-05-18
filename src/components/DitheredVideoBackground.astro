@@ -15,6 +15,8 @@
  *   - poster         Poster image shown before video loads
  *   - coverFit       Match shader UVs to CSS object-cover (default: true)
  *   - shadowCrush    Luminance below this value is fully crushed (0..1, default: 0.50)
+ *   - highlightCeil  Luminance above this value fades the pattern out,
+ *                     suppressing noisy halftone on specular highlights (0..1, default: 0.85)
  *   - playbackRate   Video playback speed (default: 0.5)
  *   - class          Extra CSS classes for the wrapper
  */
@@ -27,6 +29,7 @@ interface Props {
     poster?: string
     coverFit?: boolean
     shadowCrush?: number
+    highlightCeil?: number
     playbackRate?: number
     class?: string
 }
@@ -40,6 +43,7 @@ const {
     poster,
     coverFit = true,
     shadowCrush = 0.50,
+    highlightCeil = 0.85,
     playbackRate = 0.5,
     class: className = "",
 } = Astro.props
@@ -73,6 +77,7 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
     data-mode={modeVal}
     data-cover-fit={coverFit ? "1" : "0"}
     data-shadow-crush={shadowCrush}
+    data-highlight-ceil={highlightCeil}
     data-playback-rate={playbackRate}
 >
     {/* Solid dark background — the video itself is sampled for data only */}
@@ -158,6 +163,7 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         uniform float u_containerAspect;
         uniform float u_coverFit;
         uniform float u_shadowCrush;
+        uniform float u_highlightCeil;
 
         varying vec2 v_uv;
 
@@ -231,8 +237,18 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
              *
              *    Bright video → large visible pattern
              *    Dark  video → fully transparent / no pattern
+             *
+             *    A highlight rolloff fades the pattern for very bright
+             *    specular highlights (e.g. water reflections) to suppress
+             *    noisy halftone dots in overexposed areas.
              */
             float adjustedL = smoothstep(u_shadowCrush, 1.0, luminance);
+
+            // Roll off the pattern above u_highlightCeil — specular
+            // highlights (luminance → 1.0) produce no halftone noise.
+            float highlightMask = 1.0 - smoothstep(u_highlightCeil, 1.0, luminance);
+            adjustedL *= highlightMask;
+
             float dithered = adjustedL + (threshold - 0.5) * u_ditherStrength;
             dithered = clamp(dithered, 0.0, 1.0);
 
@@ -322,6 +338,7 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         const mode = parseFloat(wrapper.dataset.mode || "0")
         const coverFit = wrapper.dataset.coverFit === "1"
         const shadowCrush = parseFloat(wrapper.dataset.shadowCrush || "0.50")
+        const highlightCeil = parseFloat(wrapper.dataset.highlightCeil || "0.85")
         const playbackRate = parseFloat(wrapper.dataset.playbackRate || "0.5")
 
         /* ---- Set playback rate for slower motion ---- */
@@ -367,6 +384,7 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         const uContainerAspect = gl.getUniformLocation(program, "u_containerAspect")
         const uCoverFit = gl.getUniformLocation(program, "u_coverFit")
         const uShadowCrush = gl.getUniformLocation(program, "u_shadowCrush")
+        const uHighlightCeil = gl.getUniformLocation(program, "u_highlightCeil")
 
         /* ---- Static uniforms ---- */
         gl.uniform1f(uCellSize, cellSize)
@@ -375,6 +393,7 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         gl.uniform1f(uMode, mode)
         gl.uniform1f(uCoverFit, coverFit ? 1.0 : 0.0)
         gl.uniform1f(uShadowCrush, shadowCrush)
+        gl.uniform1f(uHighlightCeil, highlightCeil)
 
         /* ---- Video texture ---- */
         const texture = gl.createTexture()
