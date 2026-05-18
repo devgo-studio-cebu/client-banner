@@ -47,61 +47,140 @@ const seoProps = {
 
     <!-- Main content -->
     <main
-        class="relative z-30 flex-1 flex items-center justify-center min-h-svh w-full px-4 py-8 md:px-6 md:py-12 lg:px-12"
+        class="relative z-30 flex-1 flex items-center justify-center min-h-svh w-full px-5 py-10 md:px-10 md:py-16"
     >
-        <div class="w-full max-w-4xl">
-            <!-- Grid container with clipped borders -->
-            <div class="border border-accent/10 overflow-hidden bg-bg/50 backdrop-blur-[2px]">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-[1px]">
-                    <!-- Client — primary emphasis -->
-                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2 overflow-hidden">
-                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Client</span>
-                        <p class="font-head uppercase text-3xl sm:text-4xl md:text-5xl text-text leading-[0.9] tracking-tight">
-                            {clientName || "TBA"}
-                        </p>
+        <div class="w-full max-w-4xl hero-wrapper">
+            <!-- Unified editorial card -->
+            <div class="border border-accent/15 bg-bg/55 backdrop-blur-[3px] overflow-hidden transition-all duration-500 hover:border-accent/25 hover:bg-bg/65">
+
+                <!-- Top section: Client + Status -->
+                <div class="p-6 md:p-10 lg:p-14 hero-section">
+                    <!-- Client label -->
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
+                        <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Client</span>
                     </div>
 
-                    <!-- Status -->
-                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2 overflow-hidden">
-                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Status</span>
-                        <h1 class="font-head uppercase text-2xl sm:text-3xl md:text-4xl text-text leading-[0.9] tracking-tight">
-                            Under<br>Development
+                    <!-- Client name -->
+                    <p class="font-head uppercase text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-text leading-[0.825] tracking-tight">
+                        {clientName || "TBA"}
+                    </p>
+
+                    <!-- Status compact line below name -->
+                    <div class="flex items-center gap-3 mt-5 md:mt-6">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent/80"></span>
+                        </span>
+                        <span class="text-accent/40 text-[10px] uppercase tracking-[0.25em] font-sans font-semibold">Status</span>
+                        <span class="h-px w-5 bg-accent/20"></span>
+                        <h1 class="font-head uppercase text-sm sm:text-base md:text-lg text-text/70 tracking-tight leading-none">
+                            Under Development
                         </h1>
                     </div>
+                </div>
 
-                    <!-- About -->
-                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2">
-                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">About</span>
-                        <p class="font-sans text-sm md:text-base text-text/70 leading-relaxed">
+                <!-- Divider -->
+                <div class="mx-6 md:mx-10 lg:mx-14 h-px bg-accent/[0.08] hero-line"></div>
+
+                <!-- Middle section: About -->
+                <div class="p-6 md:p-10 lg:p-14 grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-10 hero-section">
+                    <div class="md:col-span-1">
+                        <div class="flex items-center gap-2.5 mb-0 md:mb-0">
+                            <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
+                            <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">About</span>
+                        </div>
+                    </div>
+                    <div class="md:col-span-4">
+                        <p class="font-sans text-sm md:text-base lg:text-[17px] text-text/50 leading-[1.7] max-w-xl">
                             A new digital experience is currently being built here. Something clean, fast, and purposeful is on its way.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="mx-6 md:mx-10 lg:mx-14 h-px bg-accent/[0.08] hero-line"></div>
+
+                <!-- Bottom section: Contact + Studio -->
+                <div class="p-6 md:p-10 lg:p-14 flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12 hero-section">
+                    <!-- Contact -->
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2.5 mb-5">
+                            <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
+                            <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Contact</span>
+                        </div>
+                        <a
+                            href={`mailto:${contactEmail}`}
+                            class="font-sans text-sm md:text-base text-accent/70 hover:text-accent transition-colors duration-300 break-all block"
+                        >
+                            {contactEmail}
+                        </a>
+                        {contactPhone && (
+                            <a
+                                href={`tel:${contactPhone}`}
+                                class="font-sans text-sm md:text-base text-accent/70 hover:text-accent transition-colors duration-300 mt-1 block"
+                            >
+                                {contactPhone}
+                            </a>
+                        )}
+                        <p class="font-sans text-xs md:text-sm text-text/30 mt-3">
+                            Questions? Reach out anytime.
                         </p>
                     </div>
 
                     <!-- Studio -->
-                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2 overflow-hidden">
-                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Studio</span>
-                        <p class="font-head uppercase text-2xl sm:text-3xl md:text-4xl text-text leading-[0.9] tracking-tight">
+                    <div class="md:text-right shrink-0">
+                        <div class="flex items-center gap-2.5 mb-5 md:justify-end">
+                            <span class="text-accent/45 text-[10px] uppercase tracking-[0.28em] font-sans font-semibold">Studio</span>
+                            <span class="w-2 h-2 rounded-full bg-accent/50 hero-dot"></span>
+                        </div>
+                        <p class="font-head uppercase text-2xl sm:text-3xl md:text-4xl text-text/90 leading-[0.88] tracking-tight">
                             DEVGO<br>STUDIO
                         </p>
                     </div>
-
-                    <!-- Contact -->
-                    <div class="bg-bg/60 p-4 md:p-6 lg:p-8 col-span-2">
-                        <span class="text-accent/50 text-[10px] uppercase tracking-[0.2em] font-sans font-medium block mb-3">Contact</span>
-                        <a href={`mailto:${contactEmail}`} class="font-sans text-xs md:text-sm text-accent/80 hover:text-accent transition-colors break-all block">
-                            {contactEmail}
-                        </a>
-                        {contactPhone && (
-                            <a href={`tel:${contactPhone}`} class="font-sans text-xs md:text-sm text-accent/80 hover:text-accent transition-colors mt-1 block">
-                                {contactPhone}
-                            </a>
-                        )}
-                        <p class="font-sans text-xs md:text-sm text-text/50 mt-2">
-                            Questions? Reach out anytime.
-                        </p>
-                    </div>
                 </div>
+
             </div>
         </div>
     </main>
 </BaseLayout>
+
+<script>
+    import { animate, stagger } from 'animejs';
+
+    // Entrance animation — staggered fade-up on each section
+    animate('.hero-section', {
+        opacity: { from: 0, to: 1 },
+        translateY: { from: 28, to: 0 },
+        duration: 900,
+        delay: stagger(140, { start: 180 }),
+        ease: 'outExpo',
+    });
+
+    // Divider lines fade in slightly after
+    animate('.hero-line', {
+        scaleX: { from: 0, to: 1 },
+        opacity: { from: 0, to: 1 },
+        duration: 700,
+        delay: stagger(200, { start: 500 }),
+        ease: 'outQuart',
+    });
+
+    // Label dots scale in
+    animate('.hero-dot', {
+        scale: { from: 0, to: 1 },
+        opacity: { from: 0, to: 1 },
+        duration: 500,
+        delay: stagger(60, { start: 300 }),
+        ease: 'outBack',
+    });
+
+    // Wrapper subtle scale-up
+    animate('.hero-wrapper', {
+        opacity: { from: 0, to: 1 },
+        scale: { from: 0.97, to: 1 },
+        duration: 1000,
+        delay: 80,
+        ease: 'outExpo',
+    });
+</script>
