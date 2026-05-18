@@ -1,17 +1,103 @@
 ---
+import { CLIENT_NAME, CONTACT_EMAIL } from "astro:env/server"
+import BaseLayout from "../layouts/BaseLayout.astro"
 
+const clientName = CLIENT_NAME || "";
+const contactEmail = CONTACT_EMAIL || "official@devgo.studio";
+
+const seoProps = {
+    title: clientName
+        ? `${clientName} – Under Development | DEVGO Studio`
+        : "Site Under Development | DEVGO Studio",
+    description: clientName
+        ? `${clientName} is currently under development. Contact DEVGO Studio for more information.`
+        : "This site is currently under development. Contact DEVGO Studio for more information about this project.",
+    keywords: [
+        "devgo",
+        "studio",
+        "under development",
+        "coming soon",
+        clientName,
+    ].filter(Boolean),
+    type: "website" as const,
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout seo={seoProps}>
+    <main class='flex-1 flex flex-col items-center justify-center px-6 py-24 text-center'>
+        <div class='max-w-2xl mx-auto space-y-8'>
+            <!-- Logo / Brand -->
+            <div class='flex justify-center'>
+                <img
+                    src='/favicon.svg'
+                    alt='DEVGO Studio'
+                    class='w-16 h-16 md:w-20 md:h-20'
+                />
+            </div>
+
+            <!-- Status Badge -->
+            <div class='inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs md:text-sm font-medium tracking-wide uppercase'>
+                <span class='w-2 h-2 rounded-full bg-accent animate-pulse' />
+                Under Development
+            </div>
+
+            <!-- Heading -->
+            <h1 class='font-head text-4xl md:text-6xl lg:text-7xl tracking-tight text-balance'>
+                {clientName ? (
+                    <span>
+                        <span class='text-accent'>{clientName}</span>
+                        <br />
+                        is coming soon
+                    </span>
+                ) : (
+                    <span>
+                        This site is
+                        <br />
+                        <span class='text-accent'>under development</span>
+                    </span>
+                )}
+            </h1>
+
+            <!-- Description -->
+            <p class='text-lg md:text-xl text-text/60 leading-relaxed max-w-lg mx-auto'>
+                We're crafting something new. In the meantime, reach out to
+                learn more about this project.
+            </p>
+
+            <!-- Contact -->
+            <div class='pt-4'>
+                <a
+                    href={`mailto:${contactEmail}`}
+                    class='inline-flex items-center gap-3 px-8 py-4 rounded-full bg-accent text-bg font-semibold hover:bg-accent/90 transition-all duration-300 hover:scale-105 active:scale-95'
+                >
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='20'
+                        height='20'
+                        viewBox='0 0 24 24'
+                        fill='none'
+                        stroke='currentColor'
+                        stroke-width='2'
+                        stroke-linecap='round'
+                        stroke-linejoin='round'
+                    >
+                        <rect
+                            width='20'
+                            height='16'
+                            x='2'
+                            y='4'
+                            rx='2'
+                        />
+                        <path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7' />
+                    </svg>
+                    Contact DEVGO Studio
+                </a>
+            </div>
+
+            <!-- Footer note -->
+            <p class='text-xs text-text/30 pt-8'>
+                DEVGO Studio — A creative studio building digital experiences
+            </p>
+        </div>
+    </main>
+</BaseLayout>
