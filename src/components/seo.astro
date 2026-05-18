@@ -1,5 +1,5 @@
 ---
-import type { SEOProps, OrganizationSchema, WebsiteSchema } from "../types/seo"
+import type { SEOProps, OrganizationSchema, WebsiteSchema, LocalBusinessSchema, BreadcrumbListSchema } from "../types/seo"
 
 interface Props {
     seo?: Partial<SEOProps>
@@ -22,7 +22,7 @@ const socialUrls = [
 const organizationSchema: OrganizationSchema = {
     name: "DEVGO Studio",
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
+    logo: `${siteUrl}/favicon.svg`,
     sameAs: socialUrls,
 }
 
@@ -30,6 +30,28 @@ const websiteSchema: WebsiteSchema = {
     name: seo.title || defaultTitle,
     url: siteUrl,
     description: seo.description || defaultDescription,
+}
+
+const localBusinessSchema: LocalBusinessSchema = {
+    "@type": "LocalBusiness",
+    name: "DEVGO Studio",
+    url: siteUrl,
+    logo: `${siteUrl}/favicon.svg`,
+    description: "A creative studio building digital experiences",
+    email: "official@devgo.studio",
+    sameAs: socialUrls,
+}
+
+const breadcrumbSchema: BreadcrumbListSchema = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+        {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: siteUrl,
+        },
+    ],
 }
 
 function generateJsonLd() {
@@ -42,6 +64,8 @@ function generateJsonLd() {
             "@type": "WebSite",
             ...websiteSchema,
         },
+        localBusinessSchema,
+        breadcrumbSchema,
     ]
 
     if (meta.type === "article" && meta.publishedTime) {
