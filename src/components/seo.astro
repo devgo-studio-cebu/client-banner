@@ -87,140 +87,169 @@ const meta = {
 }
 ---
 
-<head>
-    <!-- JSON-LD Schema -->
-    <script
-        is:inline
-        type='application/ld+json'
-        set:html={JSON.stringify(generateJsonLd())}
-    />
+<!-- JSON-LD Schema -->
+<script
+    is:inline
+    type='application/ld+json'
+    set:html={JSON.stringify(generateJsonLd())}
+/>
 
-    <!-- Primary Meta Tags -->
-    <title>{meta.title}</title>
-    <meta
-        name='title'
-        content={meta.title}
-    />
-    <meta
-        name='description'
-        content={meta.description}
-    />
-    <meta
-        name='keywords'
-        content={meta.keywords.join(", ")}
-    />
-    <meta
-        name='author'
-        content={meta.author || "DEVGO Studio"}
-    />
+<title>{meta.title}</title>
 
-    <!-- Canonical URL -->
-    <link
-        rel='canonical'
-        href={meta.canonical}
-    />
+<!-- Primary Meta Tags -->
+<meta
+    name='title'
+    content={meta.title}
+/>
+<meta
+    name='description'
+    content={meta.description}
+/>
+<meta
+    name='keywords'
+    content={meta.keywords.join(", ")}
+/>
+<meta
+    name='author'
+    content={meta.author || "DEVGO Studio"}
+/>
+<meta
+    name='robots'
+    content='index, follow'
+/>
+<meta
+    name='theme-color'
+    content='#040906'
+/>
+<meta
+    name='color-scheme'
+    content='dark'
+/>
 
-    <!-- Open Graph / Facebook -->
-    <meta
-        property='og:type'
-        content={meta.type}
-    />
-    <meta
-        property='og:url'
-        content={meta.canonical}
-    />
-    <meta
-        property='og:title'
-        content={meta.title}
-    />
-    <meta
-        property='og:description'
-        content={meta.description}
-    />
-    <meta
-        property='og:image'
-        content={meta.image}
-    />
-    <meta
-        property='og:image:width'
-        content='1200'
-    />
-    <meta
-        property='og:image:height'
-        content='630'
-    />
-    <meta
-        property='og:image:type'
-        content='image/png'
-    />
-    <meta
-        property='og:site_name'
-        content='DEVGO Studio'
-    />
-    <meta
-        property='og:locale'
-        content='en_US'
-    />
+<!-- Canonical URL -->
+<link
+    rel='canonical'
+    href={meta.canonical}
+/>
 
-    <!-- Twitter -->
-    <meta
-        name='twitter:card'
-        content='summary_large_image'
-    />
-    <meta
-        name='twitter:url'
-        content={meta.canonical}
-    />
-    <meta
-        name='twitter:title'
-        content={meta.title}
-    />
-    <meta
-        name='twitter:description'
-        content={meta.description}
-    />
-    <meta
-        name='twitter:image'
-        content={meta.image}
-    />
-    <meta
-        name='twitter:site'
-        content='@devgostudio'
-    />
-    <meta
-        name='twitter:creator'
-        content='@devgostudio'
-    />
+<!-- Open Graph / Facebook -->
+<meta
+    property='og:type'
+    content={meta.type}
+/>
+<meta
+    property='og:url'
+    content={meta.canonical}
+/>
+<meta
+    property='og:title'
+    content={meta.title}
+/>
+<meta
+    property='og:description'
+    content={meta.description}
+/>
+<meta
+    property='og:image'
+    content={meta.image}
+/>
+<meta
+    property='og:image:width'
+    content='1200'
+/>
+<meta
+    property='og:image:height'
+    content='630'
+/>
+<meta
+    property='og:image:type'
+    content='image/png'
+/>
+<meta
+    property='og:site_name'
+    content='DEVGO Studio'
+/>
+<meta
+    property='og:locale'
+    content='en_US'
+/>
 
-    <!-- Sitemap -->
-    <link
-        rel='sitemap'
-        href='/sitemap-index.xml'
-    />
+<!-- Twitter -->
+<meta
+    name='twitter:card'
+    content='summary_large_image'
+/>
+<meta
+    name='twitter:url'
+    content={meta.canonical}
+/>
+<meta
+    name='twitter:title'
+    content={meta.title}
+/>
+<meta
+    name='twitter:description'
+    content={meta.description}
+/>
+<meta
+    name='twitter:image'
+    content={meta.image}
+/>
+<meta
+    name='twitter:site'
+    content='@devgostudio'
+/>
+<meta
+    name='twitter:creator'
+    content='@devgostudio'
+/>
 
-    <!-- Article specific (if type is article) -->
-    {
-        meta.type === "article" && meta.publishedTime && (
-            <meta
-                property='article:published_time'
-                content={meta.publishedTime}
-            />
-        )
-    }
-    {
-        meta.type === "article" && meta.modifiedTime && (
-            <meta
-                property='article:modified_time'
-                content={meta.modifiedTime}
-            />
-        )
-    }
-    {
-        meta.type === "article" && meta.author && (
-            <meta
-                property='article:author'
-                content={meta.author}
-            />
-        )
-    }
-</head>
+<!-- Sitemap -->
+<link
+    rel='sitemap'
+    href='/sitemap-index.xml'
+/>
+
+<!-- Web App Manifest -->
+<link
+    rel='manifest'
+    href='/manifest.webmanifest'
+/>
+
+<!-- hreflang -->
+<link
+    rel='alternate'
+    hreflang='en'
+    href={meta.canonical}
+/>
+<link
+    rel='alternate'
+    hreflang='x-default'
+    href={meta.canonical}
+/>
+
+<!-- Article specific (if type is article) -->
+{
+    meta.type === "article" && meta.publishedTime && (
+        <meta
+            property='article:published_time'
+            content={meta.publishedTime}
+        />
+    )
+}
+{
+    meta.type === "article" && meta.modifiedTime && (
+        <meta
+            property='article:modified_time'
+            content={meta.modifiedTime}
+        />
+    )
+}
+{
+    meta.type === "article" && meta.author && (
+        <meta
+            property='article:author'
+            content={meta.author}
+        />
+    )
+}
