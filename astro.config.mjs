@@ -37,7 +37,11 @@ export default defineConfig({
         plugins: [tailwindcss()],
     },
 
-    integrations: [sitemap()],
+    integrations: [sitemap({
+    changefreq: "weekly",
+    priority: 1.0,
+    lastmod: new Date(),
+})],
 
     fonts: [
         {

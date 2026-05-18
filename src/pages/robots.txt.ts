@@ -1,8 +1,7 @@
 import type { APIRoute } from 'astro'
 
-const siteUrl = 'https://devgo.studio'
-
-export const GET: APIRoute = () => {
+export const GET: APIRoute = ({ site }) => {
+  const siteUrl = site?.origin || 'https://devgo.studio'
   const robotsTxt = `# https://www.robotstxt.org/robotstxt.html
 # Allow all crawlers
 User-agent: *
