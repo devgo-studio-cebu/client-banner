@@ -62,6 +62,8 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
 
 <div
     class={`dither-video-wrapper absolute inset-0 w-full h-full overflow-hidden ${className}`}
+    aria-hidden="true"
+    role="presentation"
     data-src={src}
     data-cell-size={cellSize}
     data-dither-strength={ditherStrength}
@@ -85,10 +87,16 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         autoplay
         loop
         playsinline
-        preload="auto"
+        preload="metadata"
         crossorigin="anonymous"
     />
     <canvas class="absolute inset-0 w-full h-full block z-10" />
+
+    {/* Reduced-motion fallback: solid accent glow */}
+    <div
+        class="absolute inset-0 z-[5] hidden reduced-motion-fallback"
+        style="background: radial-gradient(ellipse at center, rgba(95,203,166,0.08) 0%, transparent 70%);"
+    />
 </div>
 
 <style>
@@ -103,6 +111,20 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         }
         to {
             opacity: 1;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .dither-video-wrapper video,
+        .dither-video-wrapper canvas {
+            display: none !important;
+        }
+        .dither-video-wrapper .reduced-motion-fallback {
+            display: block !important;
+        }
+        .dither-video-wrapper {
+            animation: none !important;
+            opacity: 1 !important;
         }
     }
 </style>
@@ -416,6 +438,18 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
             rafId = requestAnimationFrame(render)
         }
 
+        /* ---- Pause rendering when tab is hidden ---- */
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                cancelAnimationFrame(rafId)
+                video!.pause()
+            } else {
+                video!.play().catch(() => {})
+                render()
+            }
+        }
+        document.addEventListener("visibilitychange", handleVisibilityChange)
+
         /* ---- Kick-off when video can play ---- */
         if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
             render()
@@ -427,6 +461,7 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
         const cleanup = () => {
             cancelAnimationFrame(rafId)
             window.removeEventListener("resize", resize)
+            document.removeEventListener("visibilitychange", handleVisibilityChange)
             gl!.deleteProgram(program)
             gl!.deleteShader(gl!.getAttachedShaders(program)![0])
             gl!.deleteShader(gl!.getAttachedShaders(program)![1])
@@ -439,11 +474,15 @@ const modeVal = mode === "lines" ? 1 : mode === "crosshatch" ? 2 : 0
     // ─────────────────────────────────────────────────────────────────────────
     //  AUTO-INITIALISE every instance on the page
     // ─────────────────────────────────────────────────────────────────────────
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", () => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    if (!prefersReducedMotion) {
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", () => {
+                document.querySelectorAll<HTMLElement>(".dither-video-wrapper").forEach(initDitherVideo)
+            })
+        } else {
             document.querySelectorAll<HTMLElement>(".dither-video-wrapper").forEach(initDitherVideo)
-        })
-    } else {
-        document.querySelectorAll<HTMLElement>(".dither-video-wrapper").forEach(initDitherVideo)
+        }
     }
 </script>
